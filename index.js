@@ -1,12 +1,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
-
-function wait(milliseconds){
-  return new Promise(resolve => {
-      setTimeout(resolve, milliseconds);
-  });
-}
+const {setTimeout} = require('timers/promises');
 
 app.get('/', (req, res) => {
   res.json({
@@ -17,7 +12,7 @@ app.get('/', (req, res) => {
 app.get('/api/mock-response-time/:milliseconds', async (req, res) => {
   console.log(`Api hit`, req.params);
   const waitMs = req.params.milliseconds || 100;
-  await wait(waitMs);
+  await setTimeout(waitMs);
   res.json({
     message: `responded after waiting for ${req.params.milliseconds} milliseconds (ms)`
   });
